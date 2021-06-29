@@ -1,0 +1,33 @@
+extends layout.pug
+
+block content
+	div.container.brand
+		h1 
+			a(href='/') URL Shortener
+
+	div.container.view
+		div
+			if url
+				p ShortURL
+				a(href=`https://URLShortener.mrityunjay1.repl.co/${id}`) https://URLShortener.mrityunjay1.repl.co/#{id}
+		
+		form(action='/',method='POST')
+			input(type='text',name='url',placeholder='http://example.com/',required,autofocus)
+			button.btn(type='submit') Get the Link
+
+		div
+			if(data[0] !== undefined)
+				table
+					tr
+						th LongURL
+						th ShortURL		
+					each val in data
+						tr
+							if val.URL
+								td
+									a(href=val.URL) #{val.URL}
+								td
+									a(href=`/redirectLink/${val.ShortedUrlsID}`,target='_blank') https://urlshortener.mrityunjay1.repl.co/#{val.ShortedUrlsID}
+			else
+				h3 There are no Links in the Database.
+				h4 Add Link to get shorted...
