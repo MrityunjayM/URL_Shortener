@@ -17,7 +17,7 @@ const db = mysql.createConnection({
 	database: 'mlURVbCN6A'
 });
 
-db.connect((err) => err ? console.log(err) : console.log('Connected to Database 	Succesfully...')
+db.connect((err) => err ? console.log(err) : console.log('Connected to Database Succesfully...')
 );
 
 // view engine set-up...
