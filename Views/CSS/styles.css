@@ -28,6 +28,10 @@ body{
 	text-decoration:none;
 }
 
+.container > .new-url{
+	margin: 15px auto 20px;
+}
+
 .container.view{
 	flex-direction: column;
 	height: fit-content;
@@ -68,18 +72,34 @@ input:is(:focus,:hover){
 	cursor: pointer;
 	background-color:#ff9;
 }
+
 table{
 	border-collapse: collapse;
 	width:70%;
 	min-width: 300px;
 	margin: 0 auto;
 }
+
+tr:nth-child(even){
+	background: rgb(199, 195, 195);
+}
+
 tr,td,th{
 	border:1.2px solid #000;
 }
+
 td{
 	padding: 5px 8px;
 }
-tr:nth-child(even){
-	background: rgb(199, 195, 195);
+
+tr{
+	height: 2em !important;
+	max-height: 30px !important;
+}
+
+td.rdct-link-cntr:hover{
+	/* transform: scale(1.2) */
+}
+td a.rdct-link:hover{
+	transform: scale(1.2);
 }

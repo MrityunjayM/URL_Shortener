@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const pug = require('pug');
 
 // PORT 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 
 // create connection to db...
@@ -44,8 +44,8 @@ app.get('/redirectlink/:id', (req, res) => {
 	const ShortedUrlID = req.params.id;
 	const query = `SELECT * FROM Links WHERE ShortedUrlsID='${ShortedUrlID}' LIMIT 1;`;
 
-	db.query(query,(error, link) => {
-		if (error) throw error;
+	db.query(query,(err, link) => {
+		if (err) throw err;
 		let redirectLink = link[0].URL;
 		// console.log(redirectLink)
 		res.redirect(redirectLink);
@@ -60,7 +60,7 @@ app.post('/', (req, res) => {
 	const query = `INSERT INTO Links (URL, ShortedUrlsID) VALUES ('${originalURL}','${ShortedUrlID}');`;
 
 	db.query(query, err => {
-		if(err) console.log(err)
+		if(err) throw err;
 	});
 
 	let query1 = `SELECT * FROM Links;`;

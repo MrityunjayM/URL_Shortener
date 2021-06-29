@@ -6,7 +6,7 @@ block content
 			a(href='/') URL Shortener
 
 	div.container.view
-		div
+		div.new-url
 			if url
 				p ShortURL
 				a(href=`https://URLShortener.mrityunjay1.repl.co/${id}`) https://URLShortener.mrityunjay1.repl.co/#{id}
@@ -26,8 +26,8 @@ block content
 							if val.URL
 								td
 									a(href=val.URL) #{val.URL}
-								td
-									a(href=`/redirectLink/${val.ShortedUrlsID}`,target='_blank') https://urlshortener.mrityunjay1.repl.co/#{val.ShortedUrlsID}
+								td.rdct-link-cntr
+									a(href=`/redirectLink/${val.ShortedUrlsID}`,target='_blank').rdct-link https://urlshortener.mrityunjay1.repl.co/#{val.ShortedUrlsID}
 			else
 				h3 There are no Links in the Database.
 				h4 Add Link to get shorted...
