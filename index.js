@@ -12,8 +12,8 @@ const app = express();
 // create connection to db...
 const db = mysql.createConnection({
 	host: 'remotemysql.com',
-	user: process.env['user'],
-	password: process.env['pwd'],
+	user: 'mlURVbCN6A',
+	password: 'Z0Rs8bXlvC',
 	database: 'mlURVbCN6A'
 });
 
