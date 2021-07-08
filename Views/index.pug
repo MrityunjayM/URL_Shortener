@@ -9,25 +9,31 @@ block content
 		div.new-url
 			if url
 				p ShortURL
-				a(href=`https://URLShortener.mrityunjay1.repl.co/${id}`) https://URLShortener.mrityunjay1.repl.co/#{id}
+				a(href=`/redirectLink/${id}`) https://URLShortener.mrityunjay1.repl.co/#{id}
 		
-		form(action='/',method='POST')
-			input(type='text',name='url',placeholder='http://example.com/',required,autofocus)
+		form(id='form',action='/',method='POST').form-control
+			input(type='url',name='url',placeholder='http://example.com/', required, autocomplete="off", autofocus)
 			button.btn(type='submit') Get the Link
 
-		div
-			if(data[0] !== undefined)
-				table
+	div.container.urls
+		if(data[0] !== undefined)
+			table
+				thead
 					tr
 						th LongURL
-						th ShortURL		
-					each val in data
-						tr
-							if val.URL
-								td
-									a(href=val.URL) #{val.URL}
-								td.rdct-link-cntr
-									a(href=`/redirectLink/${val.ShortedUrlsID}`,target='_blank').rdct-link https://urlshortener.mrityunjay1.repl.co/#{val.ShortedUrlsID}
-			else
-				h3 There are no Links in the Database.
-				h4 Add Link to get shorted...
+						th ShortURL
+						th Action		
+				each val in data
+					tr
+						if val.URL
+							td
+								a(href=val.URL) #{val.URL}
+							td.rdct-link-cntr
+								a(href=`/redirectLink/${val.ShortedUrlsID}`,target='_blank').rdct-link https://urlshortener.mrityunjay1.repl.co/#{val.ShortedUrlsID}
+							td
+								form(action=`/redirectLink/${val.ShortedUrlsID}?_method=DELETE`,method='POST',style='padding:0;margin:0;')
+									button(type='submit').btn-delete &times;
+
+		else
+			h3 There are no Links in the Database.
+			h4 Add Link to get shorted...
