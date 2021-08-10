@@ -1,13 +1,20 @@
 // Import Modules...
-const mysql = require('mysql');
 const express = require('express');
-const path = require('path')
 const bodyParser = require('body-parser');
+const path = require('path')
+const mysql = require('mysql');
+const session = require('express-session');
+const MySQLStore = require('connect-mysql')(session);
 const pug = require('pug');
 const methodOverride = require('method-override');
+const fetch = require('node-fetch');
+
+// SEO tool ~ prerender.io
+const prerender = require('prerender-node');
 
 // PORT 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env['PORT'];
+// Expresss App Initialization...
 const app = express();
 
 // create connection to db...
@@ -18,63 +25,117 @@ const db = mysql.createPool({
 	database: process.env['db']
 });
 
-// db.connect((err) => err ? console.log(err) : console.log('Connected to Database Succesfully...')
-// );
+// SessionStore options
+const options = {
+	secret: 'thissecretcannnotberevealed',
+	pool: db
+}
+
+const sessionStore = new MySQLStore(options)
 
 // view engine set-up...
 app.set('view engine', 'pug');
 app.set('views', './Views');
 
+// SEO Middleware...
+app.use(prerender.set('prerenderToken','W0VDYrHkzoSOK81LX0c4'));
 // set-up middlewares..
 app.use(express.static(path.join(__dirname, 'Views')));
+app.use(session({
+	secret: 'thissecretcannnotberevealed',
+	resave: false,
+	saveUninitialized: false,
+	cookie: {
+		httpOnly: false,
+		secure: true,
+		maxAge: 1000 * 60 * 60 * 24 * 3,
+		expires: 1000 * 60 * 60 * 24 * 3
+	},
+	store: sessionStore
+}, db))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 
+// app.use((req, res, next) => {
+//   res.locals.session= {name :"MRITYUNJAY"}
+// 	next();
+// });
+
 // define Routes...
 app.get('/', (req, res) => {
-
-	let query = `SELECT * FROM Links;`;
+	let sess = req.session;
+	const query = `SELECT * FROM Links;`;
 	db.query(query, (err, data) => {
 		if (err) throw err;
-		res.render('index', { data });
+
+		// console.log(sess);
+		res.render('index', {data: req.session.data});
 	});
 });
 
-app.get('/redirectlink/:id', (req, res) => {
+app.get('/awake', (req, res) => {
+	let response = {
+		status: 'OK'
+	};
+
+	console.log(req.route.path);
+	res.status(200).json(response);
+});
+
+app.get('/:id', (req, res) => {
 
 	const ShortedUrlID = req.params.id;
-	const query = `SELECT * FROM Links WHERE ShortedUrlsID='${ShortedUrlID}' LIMIT 1;`;
 
-	db.query(query, (err, link) => {
-		if (err) throw err;
-		res.redirect(link[0].URL);
-	});
+	const query = `SELECT * FROM Links WHERE ShortedUrlsID='${ShortedUrlID}' LIMIT 1;`;
+	
+	ShortedUrlID != 'favicon.ico' ?
+		db.query(query, (err, link) => {
+			if (err) throw err;
+			res.redirect(link[0].URL);
+		})
+	: res.redirect('/')
+
 });
 
 app.post('/', (req, res) => {
-	const originalURL = req.body.url;
-	// console.log(originalURL);
-	const ShortedUrlID = Math.random().toString(36).replace(/[^a-z0-9]/gi, '').substr(2, 10);
 
-	if(originalURL){
+	let sess = req.session;
+	let originalURL = req.body.url;
+	let ShortedUrlID = Math.random().toString(36).replace(/[^a-z0-9]/gi, '').substr(2, 10);
+
+	if (originalURL) {
 		const query = `INSERT INTO Links (URL, ShortedUrlsID) VALUES ('${originalURL}','${ShortedUrlID}');`;
 
-		db.query(query, err => {
-			if (err) throw err;
+		// console.log(query)
 
-			let query1 = `SELECT * FROM Links;`;
-			db.query(query1, (err, data) => {
-				if (err) throw err;
-				res.render('index', { url: originalURL, id: ShortedUrlID, data });
-			});
+		db.query(query, (err, result, fields) => {
+
+			if (err) {
+				res.status(500)
+				.send('<center><h1> Something went wrong on server,</h1><h4> sorry for your Inconvenience!</h4><h4>Do visit again later...</h4><h3><a href="/">Go Back</a></h3></center>')
+			}
+
+			if(sess.urls){
+				sess.urls += [{url: originalURL, id : ShortedUrlID}];
+			} else {
+				sess.urls= [{url: originalURL, id : ShortedUrlID}]
+			}
+
+			console.log(sess);
+			res.render('index', {url: originalURL, id: ShortedUrlID});
 		});
+
 	} else {
-		res.status(301).json({"Err-Type" : "DO Fill the input form..!!!!"});
+		res
+		.status(301)
+		.json({ 
+			"Err-Type": "DO Fill the input form..!!!!" 
+		});
 	}
 });
 
-app.delete('/redirectlink/:id', (req, res) => {
+app.delete('/:id', (req, res) => {
 	const ShortedUrlID = req.params.id;
 	const query = `DELETE FROM Links WHERE ShortedUrlsID = '${ShortedUrlID}';`;
 
@@ -84,7 +145,18 @@ app.delete('/redirectlink/:id', (req, res) => {
 	});
 });
 
-// server Init...
-app.listen(PORT, () => {
-	console.log(`Server running on ${PORT}`);
-});
+// Ping to keep the repo awake...
+setInterval(() => {
+	fetch('https://surl.mrityunjay.xyz/awake')
+	.then(result => result.json())
+	.then(result => {
+		console.log(result)
+	}, e => console.error(e))
+	.catch(e => console.error(e))
+},1000*60*25)
+
+// Server Init...
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+
+// Error 
+process.on('uncaughtException', err => console.error(err));

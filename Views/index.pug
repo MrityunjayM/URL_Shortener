@@ -8,15 +8,21 @@ block content
 	div.container.view
 		div.new-url
 			if url
-				p ShortURL
-				a(href=`/redirectLink/${id}`) https://URLShortener.mrityunjay1.repl.co/#{id}
+				h4 ShortURL
+				a(href=`/${id}`) https://surl.mrityunjay.xyz/#{id}
+				br
+				p Copy this link and use it to nevigate to your specific website...
 		
 		form(id='form',action='/',method='POST').form-control
 			input(type='url',name='url',placeholder='http://example.com/', required, autocomplete="off", autofocus)
-			button.btn(type='submit') Get the Link
 
+			div.instruction
+				p Type/paste your URL to get a short link
+				p.inst-1 URL Should be formated like this 👉 " https | http://something.domain "			
+			button#link-btn.btn(type='submit') Get the Link
+		
 	div.container.urls
-		if(data[0] !== undefined)
+		if(data)
 			table
 				thead
 					tr
@@ -25,15 +31,15 @@ block content
 						th Action		
 				each val in data
 					tr
-						if val.URL
+						if val.originalURL
 							td
-								a(href=val.URL) #{val.URL}
+								a(href=val.originalURL) #{val.originalURL}
 							td.rdct-link-cntr
-								a(href=`/redirectLink/${val.ShortedUrlsID}`,target='_blank').rdct-link https://urlshortener.mrityunjay1.repl.co/#{val.ShortedUrlsID}
+								a(href=`/${val.ShortedUrlsID}`,target='_blank').rdct-link https://surl.mrityunjay.xyz/#{val.ShortedUrlsID}
 							td
-								form(action=`/redirectLink/${val.ShortedUrlsID}?_method=DELETE`,method='POST',style='padding:0;margin:0;')
+								form(action=`/${val.ShortedUrlsID}?_method=DELETE`,method='POST',style='padding:0;margin:0;')
 									button(type='submit').btn-delete &times;
 
-		else
-			h3 There are no Links in the Database.
-			h4 Add Link to get shorted...
+	// 	else
+	// 		h3 There are no Links in the Database.
+	// 		h4 Add Link to get short-links...
