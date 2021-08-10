@@ -39,6 +39,7 @@ app.set('views', './Views');
 
 // SEO Middleware...
 app.use(prerender.set('prerenderToken','W0VDYrHkzoSOK81LX0c4'));
+
 // set-up middlewares..
 app.use(express.static(path.join(__dirname, 'Views')));
 app.use(session({
