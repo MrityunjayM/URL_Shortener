@@ -100,6 +100,8 @@ app.get('/:id', (req, res) => {
 
 app.post('/', (req, res) => {
 
+	let host = req.hostname;
+
 	let sess = req.session;
 	let originalURL = req.body.url;
 	let ShortedUrlID = Math.random().toString(36).replace(/[^a-z0-9]/gi, '').substr(2, 10);
@@ -122,8 +124,8 @@ app.post('/', (req, res) => {
 				sess.urls= [{url: originalURL, id : ShortedUrlID}]
 			}
 
-			console.log(sess);
-			res.render('index', {url: originalURL, id: ShortedUrlID});
+			// console.log('Not available');
+			res.render('index', { host, url: originalURL, id: ShortedUrlID });
 		});
 
 	} else {
