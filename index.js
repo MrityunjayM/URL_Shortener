@@ -118,10 +118,8 @@ app.post('/', (req, res) => {
 			if(sess.urls){
 				req.session.urls += [{url: originalURL, id : ShortedUrlID}];
 			} else {
-				req.session.urls= [{url: originalURL, id : ShortedUrlID}];
+				req.session.urls = [{url: originalURL, id : ShortedUrlID}];
 			}
-
-			console.log(req.session.urls);
 
 			// console.log('Not available');
 			res.render('index', { host, url: originalURL, id: ShortedUrlID });
@@ -130,9 +128,7 @@ app.post('/', (req, res) => {
 	} else {
 		res
 		.status(301)
-		.json({ 
-			"Err-Type": "DO Fill the input form..!!!!" 
-		});
+		.json({ "Err-Type" : "DO Fill the input form..!!!!" });	
 	}
 });
 
@@ -140,7 +136,7 @@ app.delete('/:id', (req, res) => {
 	const ShortedUrlID = req.params.id;
 	const query = `DELETE FROM Links WHERE ShortedUrlsID = '${ShortedUrlID}';`;
 
-	db.query(query, (err, link) => {
+	db.query(query, (err) => {
 		if (err) throw err;
 		res.redirect('/');
 	});
