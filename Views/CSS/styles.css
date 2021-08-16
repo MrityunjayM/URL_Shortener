@@ -55,8 +55,8 @@ body{
 	margin: 0 auto;
 	color: #0f76d6;
 	text-underline-offset: 8px;
-  text-decoration-thickness: 1.1px;
-  text-decoration-color: #abc;
+  	text-decoration-thickness: 1.1px;
+  	text-decoration-color: #abc;
 	-webkit-text-stroke: 0.01px #777;
 }
 
@@ -125,14 +125,15 @@ form.form-control {
 input{
 	display: block;
 	width: 100%;
-	height: 40px;
+	height: 60px;
 	margin: 2px auto 8px;
 	padding: 3px 8px 3px 15px;
-	font-size: 1.06rem;
-	background: rgb(255, 255, 255);
+	font-size: 1.5em;
+	background: #f9f9f9;
 	border: none;	
-	border-radius: 30px;
+	border-radius: 8px;
 	box-shadow: 1px 1px 1.2px 1px rgba(123, 121, 128, 0.8);
+	transition: transform 0.8s ease-in-out;
 }
 
 input::placeholder{
@@ -141,20 +142,19 @@ input::placeholder{
 
 input:is(:focus, :hover){
 	outline: none;
-	border: none;
+	box-shadow: 0 0 3px 2px #04b7d6;
 	transform: scale(1.06);
-	transition: all 0.8s ease-in-out;
 }
 
 .btn{
-	width: 130px;
-	height: 30px;
+	width: 100%;
+	height: 50px;
 	margin: 3px auto 15px;
 	padding: 3px;
 	border: none;
 	border-radius: 8px;
 	display: block;
-	color: #666;
+	color: #222;
 	background: rgba(33, 226, 216, 0.863);
 	font-family: 'Poppins';
 	font-size: 1.1rem;
@@ -163,13 +163,13 @@ input:is(:focus, :hover){
 	box-shadow: 
 		1px 0.8px 1px 1px rgba(123, 121, 128, 0.6),
 		inset 1px 1px 1px 1px rgba(123, 121, 128, 0.6);
-	transition: all 0.5s ease-in-out;
+	transition: transform 0.5s ease-in-out;
 }
 
 .btn:hover{
 	cursor: pointer;
 	background-color:rgb(76, 169, 206);
-	transform: scale(1.08);
+	transform: scale(1.06);
 }
 
 .btn-delete{
@@ -244,7 +244,9 @@ tr{
 		width: 100vw;
 	}
 
-	.container .form-control input,	.container .form-control .instruction
+	.container .form-control input,
+	.container .form-control .instruction,
+	.container .form-control .btn
 	{
 		width: 90%;
 	}

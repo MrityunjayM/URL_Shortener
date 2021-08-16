@@ -1,0 +1,19 @@
+//- URL_LIST
+
+div.container.urls
+	table
+		thead
+			tr
+				th LongURL
+				th ShortURL
+				th Action		
+		each val in data
+			tr
+				if val.originalURL
+					td
+						a(href=val.originalURL) #{val.originalURL}
+					td.rdct-link-cntr
+						a(href=`/${val.ShortedUrlsID}`,target='_blank').rdct-link https://surl.mrityunjay.xyz/#{val.ShortedUrlsID}
+					td
+						form(action=`/${val.ShortedUrlsID}?_method=DELETE`,method='POST',style='padding:0;margin:0;')
+							button(type='submit').btn-delete &times;

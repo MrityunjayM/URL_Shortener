@@ -9,37 +9,19 @@ block content
 		div.new-url
 			if url
 				h4 ShortURL
-				a(href=`/${id}`) https://#{host}/#{id}
+				a(href=`/${id}`) http://#{host}/#{id}
 				br
 				p Copy this link and use it to nevigate to your specific website...
 		
 		form(id='form',action='/',method='POST').form-control
-			input(type='url',name='url',placeholder='http://example.com/', required, autocomplete="off", autofocus)
+
+			input(type='url',id='inpurl',name='url',placeholder='http://example.com/', required, autocomplete="off", autofocus)
 
 			div.instruction
-				p Type/paste your URL to get a short link
-				p.inst-1 URL Should be formated like this 👉 " https | http://something.domain "			
-			button#link-btn.btn(type='submit') Get the Link
-		
-	div.container.urls
-		if(data)
-			table
-				thead
-					tr
-						th LongURL
-						th ShortURL
-						th Action		
-				each val in data
-					tr
-						if val.originalURL
-							td
-								a(href=val.originalURL) #{val.originalURL}
-							td.rdct-link-cntr
-								a(href=`/${val.ShortedUrlsID}`,target='_blank').rdct-link https://surl.mrityunjay.xyz/#{val.ShortedUrlsID}
-							td
-								form(action=`/${val.ShortedUrlsID}?_method=DELETE`,method='POST',style='padding:0;margin:0;')
-									button(type='submit').btn-delete &times;
+				p Type/paste your URL to get shortened
+				p.inst-1 URL Should be formated like this 👉 " https | http://microsoft.com "			
+			
+			button#link-btn.btn(type='submit') Shorten the Link
 
-	// 	else
-	// 		h3 There are no Links in the Database.
-	// 		h4 Add Link to get short-links...
+	if(data)
+		include ./urlList.pug
