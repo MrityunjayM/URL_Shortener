@@ -58,31 +58,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 
-// app.use((req, res, next) => {
-//   res.locals.session= {name :"MRITYUNJAY"}
-// 	next();
-// });
-
 // define Routes...
 app.get('/', (req, res) => {
 	let sess = req.session;
 	const query = `SELECT * FROM Links;`;
 	db.query(query, (err, data) => {
 		if (err) throw err;
-
-		// console.log(sess);
-		res.render('index', {data: req.session.data});
+		res.render('index', {data: sess.data});
 	});
 });
 
-app.get('/awake', (req, res) => {
-	let response = {
-		status: 'OK'
-	};
+// app.get('/awake', (req, res) => {
+// 	let response = {
+// 		status: 'OK'
+// 	};
 
-	console.log(req.route.path);
-	res.status(200).json(response);
-});
+// 	console.log(req.route.path);
+// 	res.status(200).json(response);
+// });
 
 app.get('/:id', (req, res) => {
 
@@ -95,16 +88,15 @@ app.get('/:id', (req, res) => {
 			if (err) throw err;
 			res.redirect(link[0].URL);
 		})
-	: res.redirect('/')
-
+	: res.redirect('/');
 });
 
 app.post('/', (req, res) => {
 
 	let host = req.hostname;
-
 	let sess = req.session;
 	let originalURL = req.body.url;
+
 	let ShortedUrlID = Math.random().toString(36).replace(/[^a-z0-9]/gi, '').substr(2, 10);
 
 	if (originalURL) {
@@ -112,18 +104,24 @@ app.post('/', (req, res) => {
 
 		// console.log(query)
 
-		db.query(query, (err, result, fields) => {
+		db.query(query, (err, result) => {
 
 			if (err) {
 				res.status(500)
-				.send('<center><h1> Something went wrong on server,</h1><h4> sorry for your Inconvenience!</h4><h4>Do visit again later...</h4><h3><a href="/">Go Back</a></h3></center>')
+				.send(
+					'<center><h1> Something went wrong on server,</h1>' +
+					'<h4> sorry for your Inconvenience!</h4>' +
+					'<h4>Do visit again later...</h4><h3><a href="/">Go Back</a></h3></center>'
+				)
 			}
 
 			if(sess.urls){
-				sess.urls += [{url: originalURL, id : ShortedUrlID}];
+				req.session.urls += [{url: originalURL, id : ShortedUrlID}];
 			} else {
-				sess.urls= [{url: originalURL, id : ShortedUrlID}]
+				req.session.urls= [{url: originalURL, id : ShortedUrlID}];
 			}
+
+			console.log(req.session.urls);
 
 			// console.log('Not available');
 			res.render('index', { host, url: originalURL, id: ShortedUrlID });
@@ -149,14 +147,14 @@ app.delete('/:id', (req, res) => {
 });
 
 // Ping to keep the repo awake...
-setInterval(() => {
-	fetch('https://surl.mrityunjay.xyz/awake')
-	.then(result => result.json())
-	.then(result => {
-		console.log(result)
-	}, e => console.error(e))
-	.catch(e => console.error(e))
-},1000*60*25)
+// setInterval(() => {
+// 	fetch('https://surl.mrityunjay.xyz/awake')
+// 	.then(result => result.json())
+// 	.then(result => {
+// 		console.log(result)
+// 	}, e => console.error(e))
+// 	.catch(e => console.error(e))
+// },1000*60*25);
 
 // Server Init...
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
