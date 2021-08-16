@@ -66,6 +66,8 @@ body{
 	min-width: 280px;
 	margin: 15px auto 20px;
 	padding: 0 1em;
+	opacity: 0;
+	animation: LateShow 1.2s ease-out both;
 }
 
 .container > .new-url a{
@@ -103,10 +105,11 @@ body{
 
 .inst-1
 {
-	background: #a5f3e18c;
-  padding: 3px;
-  box-shadow: 3px 3px 8px #777;
+	margin-top: 6px;
+	padding: 3px;
 	font-weight: 400;
+	background: #a5f3e18c;
+  	box-shadow: 3px 3px 8px #777;
 }
 
 .container.urls{
