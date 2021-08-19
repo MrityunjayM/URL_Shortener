@@ -1,7 +1,7 @@
 // Import Modules...
 const express = require('express');
 const helmet = require('helmet');
-const compression = require('compression');
+// const compression = require('compression');
 const path = require('path')
 const mysql = require('mysql');
 const session = require('express-session');
@@ -43,7 +43,7 @@ app.use(prerender.set('prerenderToken','W0VDYrHkzoSOK81LX0c4'));
 
 // set-up middlewares..
 app.use(helmet()); // Security Middleware
-app.use(compression());
+// app.use(compression());
 app.use(express.static(path.join(__dirname, 'Views')));
 app.use(session({
 	secret: 'thissecretcannnotberevealed',
