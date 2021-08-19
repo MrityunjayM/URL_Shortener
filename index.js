@@ -12,6 +12,7 @@ const methodOverride = require('method-override');
 
 // SEO tool ~ prerender.io
 const prerender = require('prerender-node');
+const { render } = require('pug');
 
 // PORT 
 const PORT = process.env['PORT'];
@@ -109,6 +110,11 @@ app.post('/', (req, res) => {
 
 			if (err) {
 				console.log(err.message);
+				if(err.message = 'ER_DUP_ENTRY') {
+					render('index',{ msg: 'A link is already generated using this suffix' + slug});
+					return;
+				}
+				
 				res
 				.status(500)
 				.send(`

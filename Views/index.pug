@@ -20,11 +20,13 @@ block content
 			input(type='text', id='slug', name='slug', placeholder='Customize your URL')
 
 			div.instruction
+				if msg
+					p #{msg}
 				p Type/paste your URL to get shortened
 				br
 				p.inst-1 URL Should be formated like this 👉 " https | http://microsoft.com "			
 			
 			button#link-btn.btn(type='submit') Shorten the Link
 
-	if(data)
+	if data
 		include ./urlList.pug
