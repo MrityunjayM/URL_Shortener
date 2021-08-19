@@ -108,7 +108,7 @@ app.post('/', (req, res) => {
 		db.query(query, (err, result) => {
 
 			if (err) {
-				console.log(err);
+				console.log(err.message);
 				res
 				.status(500)
 				.send(`
