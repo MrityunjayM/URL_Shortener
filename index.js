@@ -109,13 +109,9 @@ app.post('/', (req, res) => {
 		db.query(query, (err, result) => {
 
 			if (err) {
-				console.log(err.code);
-				if(err.code == 'ER_DUP_ENTRY') {
 
-					res.render('index',{ msg: `A link is already generated using this suffix ${slug}` });
-					return;
-				}
-
+				err.code == 'ER_DUP_ENTRY'? res.status(400).render('index',{ msg: `A link is already generated using this suffix ${slug}` })
+				:
 				res
 				.status(500)
 				.send(`

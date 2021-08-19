@@ -102,6 +102,11 @@ body{
 	line-height: 25px;
 	margin: 18px auto;
 }
+.instruction .err-msg
+{
+	border: 2px solid red;
+	background: #d68787 !important;
+}
 
 .inst-1
 {
