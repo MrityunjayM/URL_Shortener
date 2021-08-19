@@ -63,12 +63,12 @@ app.use(methodOverride("_method"));
 
 // define Routes...
 app.get('/', (req, res) => {
-	let sess = req.session;
+	// let sess = req.session;
 	// const query = `SELECT * FROM Links;`;
 	// db.query(query, (err, data) => {
 	// 	if (err) throw err;
 	// });
-	res.render('index', { data: sess.data });
+	res.render('index');
 });
 
 // app.get('/awake', (req, res) => {
@@ -121,7 +121,7 @@ app.post('/', (req, res) => {
 				)
 			}
 
-			if(sess.urls){
+			if(req.session.urls){
 				req.session.urls += [{ url, id }];
 			} else {
 				req.session.urls = [{ url, id }];
