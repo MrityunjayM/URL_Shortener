@@ -110,11 +110,11 @@ app.post('/', (req, res) => {
 
 			if (err) {
 				console.log(err.message);
-				if(err.message = 'ER_DUP_ENTRY') {
+				if(err.message == 'ER_DUP_ENTRY') {
 					render('index',{ msg: 'A link is already generated using this suffix' + slug});
 					return;
 				}
-				
+
 				res
 				.status(500)
 				.send(`
