@@ -119,6 +119,7 @@ app.post('/', (req, res) => {
 					</center>
 					`
 				)
+				return;
 			}
 
 			if(req.session.urls){
