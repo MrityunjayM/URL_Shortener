@@ -9,7 +9,7 @@ block content
 		div.new-url
 			if url
 				h4 ShortURL
-				a(href=`/${id}`) http://#{host}/#{id}
+				a(href=`/${id}`) http://#{hostname}/#{id}
 				br
 				p Copy this link and use it to nevigate to your specific website...
 		
@@ -17,8 +17,11 @@ block content
 
 			input(type='url',id='inpurl',name='url',placeholder='http://example.com/', required, autocomplete="off", autofocus)
 
+			input(type='text', id='slug', name='slug', placeholder='Customize your URL')
+
 			div.instruction
 				p Type/paste your URL to get shortened
+				br
 				p.inst-1 URL Should be formated like this 👉 " https | http://microsoft.com "			
 			
 			button#link-btn.btn(type='submit') Shorten the Link

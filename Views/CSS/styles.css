@@ -139,14 +139,28 @@ input{
 	transition: transform 0.8s ease-in-out;
 }
 
+input#slug{
+	transform: inherit;
+}
+
 input::placeholder{
 	align-items: center;
+}
+
+input#slug::placeholder{
+	font-style: italic;
 }
 
 input:is(:focus, :hover){
 	outline: none;
 	box-shadow: 0 0 3px 2px #04b7d6;
 	transform: scale(1.06);
+}
+
+input#slug:is(:focus, :hover){
+	outline: none;
+	box-shadow: unset;
+	transform: unset;
 }
 
 .btn{
