@@ -110,7 +110,8 @@ app.post('/', (req, res) => {
 
 			if (err) {
 
-				err.code == 'ER_DUP_ENTRY'? res.status(400).render('index',{ msg: `A link is already generated using this suffix ${slug}` })
+				err.code == 'ER_DUP_ENTRY'? res.status(400).render('index', 
+				{ msg: `A link is already generated using this suffix "${slug}"` })
 				:
 				res
 				.status(500)
