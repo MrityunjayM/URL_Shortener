@@ -96,6 +96,7 @@ app.get("/:id", (req, res) => {
   id != "favicon.ico"
     ? db.query(query, (err, link) => {
         if (err) throw err;
+		console.log(link);
         link[0].URL
           ? res.redirect(link[0].URL)
           : res.render("index", { msg: "Invalid URL!!" });
