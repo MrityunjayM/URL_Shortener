@@ -48,7 +48,7 @@ app.use(
   session({
     secret: "thissecretcannnotberevealed",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       httpOnly: false,
       secure: true,
