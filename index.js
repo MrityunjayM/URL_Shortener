@@ -159,7 +159,7 @@ app.delete("/:id", (req, res) => {
   db.query(query, (err) => {
     if (err) throw err;
 
-    delete req.session.urls.find((x) => x.id == id);
+    req.session.urls = req.session.urls.filter((x) => x.id != id);
     req.session.save(() => res.redirect("/"));
   });
 });
