@@ -97,7 +97,7 @@ app.get("/:id", (req, res) => {
     ? db.query(query, (err, link) => {
         if (err) throw err;
 		console.log(link);
-        link[0].URL
+        link.length <= 0
           ? res.redirect(link[0].URL)
           : res.render("index", { msg: "Invalid URL!!" });
       })
