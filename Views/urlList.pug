@@ -6,14 +6,14 @@ div.container.urls
 			tr
 				th LongURL
 				th ShortURL
-				th Action		
-		each val in data
-			tr
-				if val.originalURL
+				th Action
+		tbody
+			each val in urls
+				tr
 					td
-						a(href=val.originalURL) #{val.originalURL}
+						a(href=val.url) #{val.url}
 					td.rdct-link-cntr
-						a(href=`/${val.ShortedUrlsID}`,target='_blank').rdct-link https://surl.mrityunjay.xyz/#{val.ShortedUrlsID}
+						a(href=`/${val.id}`,target='_blank').rdct-link http://#{hostname}/#{val.id}
 					td
-						form(action=`/${val.ShortedUrlsID}?_method=DELETE`,method='POST',style='padding:0;margin:0;')
+						form(action=`/${val.id}?_method=DELETE`, method='POST', style='padding:0;margin:0;')
 							button(type='submit').btn-delete &times;

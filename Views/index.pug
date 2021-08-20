@@ -8,14 +8,14 @@ block content
 	div.container.view
 		div.new-url
 			if url
-				h4 ShortURL
+				h4 Shareble Link
 				a(href=`/${id}`) http://#{hostname}/#{id}
 				br
 				p Copy this link and use it to nevigate to your specific website...
 		
 		form(id='form',action='/',method='POST').form-control
 
-			input(type='url',id='inpurl',name='url',placeholder='http://example.com/', required, autocomplete="off", autofocus)
+			input(type='url', id='inpurl', name='url', placeholder='http://example.com/', required, autocomplete="off", autofocus)
 
 			input(type='text', id='slug', name='slug', placeholder='Customize your URL')
 
@@ -28,5 +28,5 @@ block content
 			
 			button#link-btn.btn(type='submit') Shorten the Link
 
-	if data
+	if urls
 		include ./urlList.pug
