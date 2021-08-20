@@ -73,10 +73,8 @@ app.get("/", (req, res) => {
   // 	if (err) throw err;
   // });
   if (req.session.urls) {
-    console.log(req.session.urls);
     return res.render("index", { urls: req.session.urls });
   } else {
-    console.log(req.session);
     return res.render("index");
   }
 });
@@ -98,7 +96,9 @@ app.get("/:id", (req, res) => {
   id != "favicon.ico"
     ? db.query(query, (err, link) => {
         if (err) throw err;
-        res.redirect(link[0].URL);
+        link[0].URL
+          ? res.redirect(link[0].URL)
+          : res.render("index", { msg: "Invalid URL!!" });
       })
     : res.redirect("/");
 });
@@ -151,14 +151,16 @@ app.post("/", (req, res) => {
 });
 
 // DELETE URL from Database...
-app.delete('/:id', (req, res) => {
-	const { id }= req.params;
-	const query = `DELETE FROM Links WHERE ShortedUrlsID = '${ id }';`;
+app.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  const query = `DELETE FROM Links WHERE ShortedUrlsID = '${id}';`;
 
-	db.query(query, (err) => {
-		if (err) throw err;
-		res.redirect('/');
-	});
+  db.query(query, (err) => {
+    if (err) throw err;
+
+    delete req.session.urls.find((x) => x.id == id);
+    req.session.save(() => res.redirect("/"));
+  });
 });
 
 // Ping to keep the repo awake...
