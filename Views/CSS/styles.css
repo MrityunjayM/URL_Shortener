@@ -214,6 +214,7 @@ input#slug:is(:focus, :hover){
 	transition: all 1.2s ease-in-out;
 }
 .btn-delete:hover{
+	cursor: pointer;
 	background-color: rgb(214, 34, 34);
 }
 
