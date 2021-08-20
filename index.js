@@ -67,11 +67,7 @@ app.use((req, res, next) => {
 
 // define Routes...
 app.get("/", (req, res) => {
-  // let sess = req.session;
-  // const query = `SELECT * FROM Links;`;
-  // db.query(query, (err, data) => {
-  // 	if (err) throw err;
-  // });
+
   if (req.session.urls) {
     return res.render("index", { urls: req.session.urls });
   } else {
