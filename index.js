@@ -48,10 +48,10 @@ app.use(
   session({
     secret: "thissecretcannnotberevealed",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       httpOnly: false,
-      secure: true,
+      secure: false,
       maxAge: 1000 * 60 * 60 * 24 * 3,
       expires: 1000 * 60 * 60 * 24 * 3,
     },
