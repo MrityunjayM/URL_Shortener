@@ -73,8 +73,10 @@ app.get("/", (req, res) => {
   // 	if (err) throw err;
   // });
   if (req.session.urls) {
+    console.log(req.session.urls);
     return res.render("index", { urls: req.session.urls });
   } else {
+    console.log(req.session);
     return res.render("index");
   }
 });
