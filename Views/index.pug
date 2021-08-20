@@ -28,5 +28,5 @@ block content
 			
 			button#link-btn.btn(type='submit') Shorten the Link
 
-	if(urls.length >= 1)
+	if(urls && (urls.length > 0))
 		include ./urlList.pug
