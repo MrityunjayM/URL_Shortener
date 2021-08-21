@@ -12,6 +12,9 @@ block content
 				a(href=`/${id}`) http://#{hostname}/#{id}
 				br
 				p Copy this link and use it to nevigate to your specific website...
+				
+			if msg
+				h3.err-msg #{msg}
 		
 		form(id='form',action='/',method='POST').form-control
 
@@ -20,8 +23,6 @@ block content
 			input(type='text', id='slug', name='slug', placeholder='Customize your URL')
 
 			div.instruction
-				if msg
-					h3.err-msg #{msg}
 				p Type/paste your URL to get shortened
 				br
 				p.inst-1 URL Should be formated like this 👉 " https | http://microsoft.com "			
