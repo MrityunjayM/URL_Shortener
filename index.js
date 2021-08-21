@@ -9,9 +9,6 @@ const session = require("express-session");
 const MySQLStore = require("connect-mysql")(session);
 const methodOverride = require("method-override");
 
-// Import Queries...
-const {addURL, findURL, deleteURL} = require('./sqlQuery');
-
 // SEO tool ~ prerender.io
 const prerender = require("prerender-node");
 
@@ -27,6 +24,11 @@ const db = mysql.createPool({
   password: process.env["pwd"],
   database: process.env["db"],
 });
+
+// query functions....
+const addURL = (id, url, slug) => `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
+const findURL = (id) => `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
+const deleteURL = (id) => `DELETE FROM Links WHERE ShortedUrlsID = '${id}';`;
 
 // view engine set-up...
 app.set("view engine", "pug");
