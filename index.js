@@ -27,7 +27,8 @@ const db = mysql.createPool({
 
 // query functions....
 const addURL = (id, url, slug) => `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
-const findURL = (id) => `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
+const findById = (id) => `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
+const findByUrl = (url) => `SELECT * FROM Links WHERE URL='${url}' LIMIT 1;`;
 const deleteURL = (id) => `DELETE FROM Links WHERE ShortedUrlsID = '${id}';`;
 
 // view engine set-up...
@@ -81,7 +82,7 @@ app.get("/:id", (req, res) => {
   const { id } = req.params;
 
   id != "favicon.ico"
-    ? db.query(findURL(id), (err, link) => {
+    ? db.query(findById(id), (err, link) => {
         if (err) throw err;
         console.log(link);
         !(link.length <= 0)
@@ -106,6 +107,13 @@ app.post("/", (req, res) => {
       .status(301)
       .render("index", { msg: "Please provide a valid URL." });
   }
+
+  db.query(findByUrl(url), (err, data) =>{
+    if(data){
+      let { ShortedUrlsID, url, slug } = data[0];
+      return res.render('index', {id: ShortedUrlsID, url, slug});
+    }
+  });
 
   db.query(addURL(id, url, slug), (err) => {
     if (err) {
