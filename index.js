@@ -81,15 +81,13 @@ app.get("/", (req, res) => {
 app.get("/:id", (req, res) => {
   const { id } = req.params;
 
-  id != "favicon.ico"
-    ? db.query(findById(id), (err, link) => {
-        if (err) throw err;
-        console.log(link);
-        !(link.length <= 0)
-          ? res.redirect(link[0].URL)
-          : res.render("index", { msg: "Invalid URL!!" });
-      })
-    : res.redirect("/");
+  db.query(findById(id), (err, link) => {
+    if (err) throw err;
+
+    !(link.length <= 0)
+      ? res.redirect(link[0].URL)
+      : res.render("index", { msg: "Invalid URL!!" });
+  });
 });
 
 // GENERATE Shorten URL and STORE in Database...
