@@ -9,7 +9,8 @@ const session = require("express-session");
 const MySQLStore = require("connect-mysql")(session);
 const methodOverride = require("method-override");
 
-// const fetch = require('node-fetch');
+// Import Queries...
+const {addURL, findURL, deleteURL} = require('./sqlQuery');
 
 // SEO tool ~ prerender.io
 const prerender = require("prerender-node");
@@ -67,32 +68,20 @@ app.use((req, res, next) => {
 
 // define Routes...
 app.get("/", (req, res) => {
-
   if (req.session.urls) {
     return res.render("index", { urls: req.session.urls });
-  } else {
-    return res.render("index");
   }
+
+  return res.render("index");
 });
-
-// app.get('/awake', (req, res) => {
-// 	let response = {
-// 		status: 'OK'
-// 	};
-
-// 	console.log(req.route.path);
-// 	res.status(200).json(response);
-// });
 
 app.get("/:id", (req, res) => {
   const { id } = req.params;
 
-  const query = `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
-
   id != "favicon.ico"
-    ? db.query(query, (err, link) => {
+    ? db.query(findURL(id), (err, link) => {
         if (err) throw err;
-		console.log(link);
+        console.log(link);
         !(link.length <= 0)
           ? res.redirect(link[0].URL)
           : res.render("index", { msg: "Invalid URL!!" });
@@ -110,16 +99,19 @@ app.post("/", (req, res) => {
         .substr(2, 8)
     : slug;
 
-  if (url) {
-    const query = `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
+  if (!url) {
+    return res
+      .status(301)
+      .render("index", { msg: "Please provide a valid URL." });
+  }
 
-    db.query(query, (err, result) => {
-      if (err) {
-        err.code == "ER_DUP_ENTRY"
-          ? res.status(400).render("index", {
-              msg: `A link is already generated using this suffix "${slug}", kindly prefer somthing deferent...`,
-            })
-          : res.status(500).send(`
+  db.query(addURL(id, url, slug), (err) => {
+    if (err) {
+      err.code == "ER_DUP_ENTRY"
+        ? res.status(400).render("index", {
+            msg: `A link is already generated using this suffix "${slug}", kindly prefer something deferent.`
+        })
+        : res.status(500).send(`
 					<center>
 						<h1> Something went wrong on server, </h1>
 						<h4> sorry for your Inconvenience! </h4>
@@ -127,48 +119,32 @@ app.post("/", (req, res) => {
 						<h3> <a href="/"> Go Back </a> </h3>
 					</center>
 				`);
-        return;
-      }
+      return;
+    }
 
-      if (req.session.urls) {
-        req.session.urls = [...req.session.urls, { url, id }];
-        req.session.save(() =>
-          res.render("index", { url, id, urls: req.session.urls })
-        );
-      } else {
-        req.session.urls = [{ url, id }];
-        return res.render("index", { url, id, urls: req.session.urls });
-      }
-    });
-  } else {
-    return res.status(301).render("index", {
-      msg: "Please provide a valid URL.",
-    });
-  }
+    if (req.session.urls) {
+      req.session.urls = [...req.session.urls, { url, id }];
+      req.session.save(() =>
+        res.render("index", { url, id, urls: req.session.urls })
+      );
+    } else {
+      req.session.urls = [{ url, id }];
+      return res.render("index", { url, id, urls: req.session.urls });
+    }
+  });
 });
 
 // DELETE URL from Database...
 app.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const query = `DELETE FROM Links WHERE ShortedUrlsID = '${id}';`;
 
-  db.query(query, (err) => {
+  db.query(deleteURL(id), (err) => {
     if (err) throw err;
 
     req.session.urls = req.session.urls.filter((x) => x.id != id);
     req.session.save(() => res.redirect("/"));
   });
 });
-
-// Ping to keep the repo awake...
-// setInterval(() => {
-// 	fetch('https://surl.mrityunjay.xyz/awake')
-// 	.then(result => result.json())
-// 	.then(result => {
-// 		console.log(result)
-// 	}, e => console.error(e))
-// 	.catch(e => console.error(e))
-// },1000*60*25);
 
 // Server Init...
 app.listen(PORT, () => console.log(`Server started on PORT: ${ PORT }`));
