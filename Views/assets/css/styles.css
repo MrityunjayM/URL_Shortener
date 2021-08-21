@@ -1,15 +1,15 @@
 *{
-	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 }
 
 body{
 	background: #bdd8f9;
-	font-family: 'Poppins', Segoe UI, sans-serif !Important;
+	font-family: 'Poppins', Segoe UI, 'sans-serif' !Important;
 	min-height: 100vh;
 	opacity: 0;
-	animation: Landing 3s ease-in both;
+	animation: Landing 1s ease-in both;
 }
 
 @keyframes Landing{ to { opacity: 1; } }
@@ -29,14 +29,10 @@ body{
 	align-items: center;
 	width: 100%;
 	height: 3.5em;
-	transform: translateY(-50%);
 	font-family: 'Roboto Mono', monospace;
 	font-weight: 300;
 	background-color: rgb(243, 122, 136);
-	animation: FullWidth 4s ease-out both;
 }
-
-@keyframes FullWidth { to{ transform: translateY(0)}}
 
 .container.brand > h1 > a {
 	width: 17ch;
