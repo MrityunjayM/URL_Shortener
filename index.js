@@ -108,12 +108,12 @@ app.post("/", (req, res) => {
       .render("index", { msg: "Please provide a valid URL." });
   }
 
-  db.query(findByUrl(url), (err, data) =>{
-    if(data){
-      let { ShortedUrlsID, url, slug } = data[0];
-      return res.render('index', {id: ShortedUrlsID, url, slug});
-    }
-  });
+  // db.query(findByUrl(url), (err, data) =>{
+  //   if(data){
+  //     let { ShortedUrlsID, url, slug } = data[0];
+  //     return res.render('index', {id: ShortedUrlsID, url, slug});
+  //   }
+  // });
 
   db.query(addURL(id, url, slug), (err) => {
     if (err) {
