@@ -1,5 +1,7 @@
+// enviromental variable config...
+require("dotenv").config();
 // Import Modules...
-const express = require('express');
+const express = require("express");
 const cookieParser = require("cookie-parser");
 // const helmet = require('helmet');
 const compression = require("compression");
@@ -27,14 +29,16 @@ const db = mysql.createPool({
 
 // const db = mysql.createPool({
 //   host: '34.131.38.107',
-//   user: 'root',
-//   password: '12345',
+//   user: 'user1',
+//   password: 'user1',
 //   database: process.env["db"] || 'database1'
-// }, () => { console.log('db connected...')});
+// });
 
 // query functions....
-const addURL = (id, url, slug) => `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
-const findById = (id) => `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
+const addURL = (id, url, slug) =>
+  `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
+const findById = (id) =>
+  `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
 const findByUrl = (url) => `SELECT * FROM Links WHERE URL='${url}' LIMIT 1;`;
 const deleteURL = (id) => `DELETE FROM Links WHERE ShortedUrlsID = '${id}';`;
 
@@ -124,8 +128,8 @@ app.post("/", (req, res) => {
     if (err) {
       err.code == "ER_DUP_ENTRY"
         ? res.status(400).render("index", {
-            msg: `A link is already generated using this suffix "${slug}", kindly prefer something deferent.`
-        })
+            msg: `A link is already generated using this suffix "${slug}", kindly prefer something deferent.`,
+          })
         : res.status(500).send(`
 					<center>
 						<h1> Something went wrong on server, </h1>
@@ -162,9 +166,9 @@ app.delete("/:id", (req, res) => {
 });
 
 // Server Init...
-app.listen(PORT, () => console.log(`Server started on PORT: ${ PORT }`));
+app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
 
-// Error 
-process.on('uncaughtException', err => console.error(err));
+// Error
+process.on("uncaughtException", (err) => console.error(err));
 
 //  END
