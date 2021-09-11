@@ -1,5 +1,8 @@
 // enviromental variable config...
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 // Import Modules...
 const express = require("express");
 const cookieParser = require("cookie-parser");
@@ -15,7 +18,7 @@ const methodOverride = require("method-override");
 const prerender = require("prerender-node");
 
 // PORT
-const PORT = process.env["PORT"] || 5500;
+const PORT = process.env["PORT"];
 // Expresss App Initialization...
 const app = express();
 
