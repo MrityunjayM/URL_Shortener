@@ -25,6 +25,13 @@ const db = mysql.createPool({
   database: process.env["db"],
 });
 
+// const db = mysql.createPool({
+//   host: '34.131.38.107',
+//   user: 'root',
+//   password: '12345',
+//   database: process.env["db"] || 'database1'
+// }, () => { console.log('db connected...')});
+
 // query functions....
 const addURL = (id, url, slug) => `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
 const findById = (id) => `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
@@ -59,7 +66,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 3,
       expires: 1000 * 60 * 60 * 24 * 3,
     },
-    // store: new MySQLStore({ pool: db }),
+    store: new MySQLStore({ pool: db }),
   })
 );
 
