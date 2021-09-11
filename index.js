@@ -13,7 +13,7 @@ const methodOverride = require("method-override");
 const prerender = require("prerender-node");
 
 // PORT
-const PORT = process.env["PORT"];
+const PORT = process.env["PORT"] || 5500;
 // Expresss App Initialization...
 const app = express();
 
@@ -59,7 +59,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 3,
       expires: 1000 * 60 * 60 * 24 * 3,
     },
-    store: new MySQLStore({ pool: db }),
+    // store: new MySQLStore({ pool: db }),
   })
 );
 
