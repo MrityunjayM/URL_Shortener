@@ -3,6 +3,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
+const SocksConnection = require('socksjs');
 // Import Modules...
 const express = require("express");
 const cookieParser = require("cookie-parser");
@@ -22,12 +23,25 @@ const PORT = process.env["PORT"];
 // Expresss App Initialization...
 const app = express();
 
+const proxyUrl = process.env.IPB_SOCKS5;
+const proxyValues = proxyUrl.split(new RegExp('[/(:\\/@)/]+'));
+
+const proxyConnection = new SocksConnection({
+  host: process.env.dbhost
+}, {
+  user: proxyValues[0],
+  pass: proxyValues[1],
+  host: proxyValues[2],
+  port: proxyValues[3],
+});
+
 // create connection to db...
 const db = mysql.createPool({
   host: process.env["dbhost"],
   user: process.env["user"],
   password: process.env["pwd"],
   database: process.env["db"],
+  stream: proxyConnection
 });
 
 // query functions....
@@ -66,7 +80,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 3,
       expires: 1000 * 60 * 60 * 24 * 3,
     },
-    // store: new MySQLStore({ pool: db })
+    store: new MySQLStore({ pool: db }),
   })
 );
 
