@@ -30,13 +30,6 @@ const db = mysql.createPool({
   database: process.env["db"],
 });
 
-// const db = mysql.createPool({
-//   host: '34.131.38.107',
-//   user: 'user1',
-//   password: 'user1',
-//   database: process.env["db"] || 'database1'
-// });
-
 // query functions....
 const addURL = (id, url, slug) =>
   `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
@@ -73,7 +66,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 3,
       expires: 1000 * 60 * 60 * 24 * 3,
     },
-    store: new MySQLStore({ pool: db }),
+    // store: new MySQLStore({ pool: db })
   })
 );
 
@@ -85,9 +78,7 @@ app.use((req, res, next) => {
 
 // define Routes...
 app.get("/", (req, res) => {
-  if (req.session.urls) {
-    return res.render("index", { urls: req.session.urls });
-  }
+  if (req.session.urls) return res.render("index", { urls: req.session.urls });
 
   return res.render("index");
 });
@@ -96,7 +87,7 @@ app.get("/:id", (req, res) => {
   const { id } = req.params;
 
   db.query(findById(id), (err, link) => {
-    if (err) throw err;
+    if (err) return console.error(err);
 
     !(link.length <= 0)
       ? res.redirect(link[0].URL)
@@ -119,13 +110,6 @@ app.post("/", (req, res) => {
       .status(301)
       .render("index", { msg: "Please provide a valid URL." });
   }
-
-  // db.query(findByUrl(url), (err, data) =>{
-  //   if(data){
-  //     let { ShortedUrlsID, url, slug } = data[0];
-  //     return res.render('index', {id: ShortedUrlsID, url, slug});
-  //   }
-  // });
 
   db.query(addURL(id, url, slug), (err) => {
     if (err) {
@@ -161,7 +145,7 @@ app.delete("/:id", (req, res) => {
   const { id } = req.params;
 
   db.query(deleteURL(id), (err) => {
-    if (err) throw err;
+    if (err) return console.error(err);
 
     req.session.urls = req.session.urls.filter((x) => x.id != id);
     req.session.save(() => res.redirect("/"));
