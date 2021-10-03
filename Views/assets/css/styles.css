@@ -79,18 +79,21 @@ body{
 	font-size: .8em;
 	line-height: 25px;
 	margin: 18px auto;
-	padding: 3px;
+	padding: 3px 15px;
 	font-weight: 800;
 	border-radius: 5px;
-	background: #64f97d42;
-  	box-shadow: 3px 3px 8px #777;
+	background: #f3f4f5;
 }
 
-.new-url .err-msg
-{
-	border: 1px solid red;
-	background: #d68787 !important;
-	text-align: center;
+.new-url .err-msg {
+    background: #f3f3f3 !important;
+    text-align: center;
+    border-radius: 8px;
+    color: #fb6767;
+	max-width: 450px;
+	margin: auto;
+    font-size: 1em;
+    padding: 8px;
 }
 
 .inst-1
@@ -121,7 +124,6 @@ input{
 	background: #fcfafe;
 	border: none;	
 	border-radius: 8px;
-	box-shadow: 1px 2px 8px 3px rgba(123, 121, 128, 0.4);
 	transition: transform 0.8s ease-in-out;
 }
 
@@ -208,11 +210,11 @@ table{
 }
 
 tbody tr:nth-child(odd){
-	background: rgb(240, 159, 105);
+	background: #f3f4f1;
 }
 
 tbody tr:nth-child(even){
-	background: rgb(130, 230, 188);
+	background: #f3eec9e6;
 }
 
 td,th{
