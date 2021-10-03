@@ -1,8 +1,8 @@
 // enviromental variable config...
-if (process.env.NODE_ENV !== "production" || true) {
-  import dotenv from "dotenv";
-  dotenv.config();
-}
+// if (process.env.NODE_ENV !== "production" || true) {
+//   import dotenv from 'dotenv';
+//   dotenv.config();
+// }
 
 // Import Modules...
 // const express = require("express");
@@ -13,7 +13,7 @@ import cookieParser from "cookie-parser";
 // const compression = require("compression");
 import compression from "compression";
 // const path = require("path");
-import path from "path";
+// import path from "path";
 // const mysql = require("mysql");
 import mysql from "mysql";
 // const session = require("express-session");

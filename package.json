@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "local": "node index.js",
+    "local": "node --experimental-modules index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
