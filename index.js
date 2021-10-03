@@ -1,8 +1,8 @@
 // enviromental variable config...
-import dotenv from 'dotenv';
-if (process.env.NODE_ENV !== "production" || true) {
-  dotenv.config();
-}
+// import dotenv from 'dotenv';
+// if (process.env.NODE_ENV !== "production" || true) {
+//   dotenv.config();
+// }
 
 // Import Modules...
 import express from "express";
