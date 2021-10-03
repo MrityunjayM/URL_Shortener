@@ -43,11 +43,10 @@ body{
 }
 
 .container > .new-url{
-	max-width: 500px;
+	max-width: 450px;
 	width: 100%;
 	min-width: 280px;
 	margin: 15px auto 20px;
-	padding: 0 1em;
 	opacity: 0;
 	animation: LateShow 1.2s ease-out both;
 }
@@ -56,8 +55,7 @@ body{
 	margin: 0 auto;
 	text-decoration: none;
 	background-color: #f4f4f4;
-	box-shadow: 2px 3px 5px #777;
-	padding: 0.1em 5px;
+	padding: 0.3em 8px;
 	border-radius: 5px;
 	overflow-wrap: break-word;
 	line-height: 2;

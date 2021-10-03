@@ -14,12 +14,12 @@ block content
 				p Copy this link and use it to nevigate to your specific website...
 				
 			if msg
-				h3.err-msg #{msg}
+				p.err-msg #{msg}
 		
 		form(id='form',action='/',method='POST').form-control
 
 			input(type='url', id='inpurl', name='url', placeholder='http://example.com/', required, autocomplete="off", autofocus)
-
+			//- script(defer)
 			input(type='text', id='slug', name='slug', placeholder='Customize your URL')
 
 			div.instruction

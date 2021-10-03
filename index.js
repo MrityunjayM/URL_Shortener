@@ -1,35 +1,26 @@
 // enviromental variable config...
-// if (process.env.NODE_ENV !== "production" || true) {
-//   import dotenv from 'dotenv';
-//   dotenv.config();
-// }
+import dotenv from 'dotenv';
+if (process.env.NODE_ENV !== "production" || true) {
+  dotenv.config();
+}
 
 // Import Modules...
-// const express = require("express");
 import express from "express";
-// const cookieParser = require("cookie-parser");
 import cookieParser from "cookie-parser";
-// const helmet = require('helmet');
-// const compression = require("compression");
+// import helmet from 'helmet'; // Will be enabled in future...
 import compression from "compression";
-// const path = require("path");
-// import path from "path";
-// const mysql = require("mysql");
 import mysql from "mysql";
-// const session = require("express-session");
 import session from "express-session";
 import connectMysql from "connect-mysql";
 const MySQLStore = connectMysql(session);
-
-// const methodOverride = require("method-override");
 import methodOverride from "method-override";
 /* --------------------------------------------------------------------------- */
 // SEO tool ~ prerender.io
-// const prerender = require("prerender-node");
 import prerender from "prerender-node";
 /* --------------------------------------------------------------------------- */
 // PORT
-const PORT = process.env["PORT"];
+const PORT = process.env.PORT;
+
 // Expresss App Initialization...
 const app = express();
 
@@ -53,7 +44,7 @@ const deleteURL = (id) => `DELETE FROM Links WHERE ShortedUrlsID = '${id}';`;
 app.set("view engine", "pug");
 app.set("views", "./Views");
 
-// Serving static files from 'Views' FOLDER
+// Serving static files from --> 'Views'
 app.use(express.static("./Views"));
 
 // SEO Middleware...
