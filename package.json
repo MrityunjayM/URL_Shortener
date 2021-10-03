@@ -5,7 +5,7 @@
   "description": "A service to short url...",
   "main": "index.js",
   "scripts": {
-    "start": "npm i -S && node index.js",
+    "start": "node index.js",
     "local": "node index.js",
     "dev": "nodemon index.js"
   },
