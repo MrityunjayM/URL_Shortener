@@ -1,8 +1,6 @@
 // enviromental variable config...
-import dotenv from "dotenv";
-
 if (process.env.NODE_ENV !== "production" || true) {
-  // require("dotenv").config();
+  import dotenv from "dotenv";
   dotenv.config();
 }
 
