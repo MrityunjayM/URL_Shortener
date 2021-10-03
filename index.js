@@ -1,47 +1,46 @@
 // enviromental variable config...
-// if (process.env.NODE_ENV !== "production" || true) {
-  require("dotenv").config();
-// }
+import dotenv from "dotenv";
+
+if (process.env.NODE_ENV !== "production" || true) {
+  // require("dotenv").config();
+  dotenv.config();
+}
 
 // Import Modules...
-const express = require("express");
-const cookieParser = require("cookie-parser");
+// const express = require("express");
+import express from "express";
+// const cookieParser = require("cookie-parser");
+import cookieParser from "cookie-parser";
 // const helmet = require('helmet');
-const compression = require("compression");
-const path = require("path");
-const mysql = require("mysql");
-const session = require("express-session");
-const MySQLStore = require("connect-mysql")(session);
-const methodOverride = require("method-override");
+// const compression = require("compression");
+import compression from "compression";
+// const path = require("path");
+import path from "path";
+// const mysql = require("mysql");
+import mysql from "mysql";
+// const session = require("express-session");
+import session from "express-session";
+import connectMysql from "connect-mysql";
+const MySQLStore = connectMysql(session);
 
+// const methodOverride = require("method-override");
+import methodOverride from "method-override";
+/* --------------------------------------------------------------------------- */
 // SEO tool ~ prerender.io
-const prerender = require("prerender-node");
-
+// const prerender = require("prerender-node");
+import prerender from "prerender-node";
+/* --------------------------------------------------------------------------- */
 // PORT
 const PORT = process.env["PORT"];
 // Expresss App Initialization...
 const app = express();
-
-// const db = async () => {
-  // const dbSocketPath = process.env.DB_SOCKET_PATH || '/cloudsql';
-  // const conn_Name = process.env.CLOUD_SQL_CONNECTION_NAME || 'eternal-byte-317310:asia-south2:url-shortener1';
-
-//   // Establish a connection to the database
-//   return await mysql.createPool({
-//     user: process.env['user'], // e.g. 'my-db-user'
-//     password: process.env['pwd'], // e.g. 'my-db-password'
-//     database: process.env['db'], // e.g. 'my-database'
-//     // If connecting via unix domain socket, specify the path
-//     socketPath: `${dbSocketPath}/${conn_Name}`
-//   });
-// };
 
 // create connection to db...
 const db = mysql.createPool({
   host: process.env["dbhost"],
   user: process.env["user"],
   password: process.env["pwd"],
-  database: process.env["db"]
+  database: process.env["db"],
 });
 
 // query functions....
@@ -57,10 +56,10 @@ app.set("view engine", "pug");
 app.set("views", "./Views");
 
 // Serving static files from 'Views' FOLDER
-app.use(express.static(path.join(__dirname, "Views")));
+app.use(express.static("./Views"));
 
 // SEO Middleware...
-app.use(prerender.set("prerenderToken", "W0VDYrHkzoSOK81LX0c4"));
+app.use(prerender.set("prerenderToken", process.env.PRERENDER_TOCKEN));
 
 // set-up middlewares...
 // app.use(helmet()); // Security Middleware
@@ -71,7 +70,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   session({
-    secret: "thissecretcannnotberevealed",
+    secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -80,7 +79,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 3,
       expires: 1000 * 60 * 60 * 24 * 3,
     },
-    store: new MySQLStore({ pool: db })
+    store: new MySQLStore({ pool: db }),
   })
 );
 
@@ -105,7 +104,9 @@ app.get("/:id", (req, res) => {
 
     !(link.length <= 0)
       ? res.redirect(link[0].URL)
-      : res.render("index", { msg: "Invalid URL!!" });
+      : res
+          .status(301)
+          .render("index", { msg: "Invalid URL!!", urls: req.session.urls });
   });
 });
 
@@ -120,25 +121,23 @@ app.post("/", (req, res) => {
     : slug;
 
   if (!url) {
-    return res
-      .status(301)
-      .render("index", { msg: "Please provide a valid URL." });
+    return res.status(301).render("index", {
+      msg: "Please provide a valid URL.",
+      urls: req.session.urls,
+    });
   }
 
   db.query(addURL(id, url, slug), (err) => {
     if (err) {
       err.code == "ER_DUP_ENTRY"
         ? res.status(400).render("index", {
-            msg: `A link is already generated using this suffix "${slug}", kindly prefer something deferent.`,
+            msg: `A link is already generated using this suffix "${slug}", kindly prefer something different.`,
+            urls: req.session.urls,
           })
-        : res.status(500).send(`
-					<center>
-						<h1> Something went wrong on server, </h1>
-						<h4> sorry for your Inconvenience! </h4>
-						<h4>Do visit again later... </h4>
-						<h3> <a href="/"> Go Back </a> </h3>
-					</center>
-				`);
+        : res.status(500).render("index", {
+            msg: "Something went wrong on server, sorry for your inconveinence. Kindly visit later...",
+            urls: req.session.urls,
+          });
       return;
     }
 
