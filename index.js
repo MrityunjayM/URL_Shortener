@@ -1,9 +1,8 @@
 // enviromental variable config...
-if (process.env.NODE_ENV !== "production") {
+// if (process.env.NODE_ENV !== "production" || true) {
   require("dotenv").config();
-}
+// }
 
-// const SocksConnection = require('socksjs');
 // Import Modules...
 const express = require("express");
 const cookieParser = require("cookie-parser");
@@ -23,17 +22,19 @@ const PORT = process.env["PORT"];
 // Expresss App Initialization...
 const app = express();
 
-// const proxyUrl = process.env.IPB_SOCKS5;
-// const proxyValues = proxyUrl.split(new RegExp('[/(:\\/@)/]+'));
+// const db = async () => {
+  // const dbSocketPath = process.env.DB_SOCKET_PATH || '/cloudsql';
+  // const conn_Name = process.env.CLOUD_SQL_CONNECTION_NAME || 'eternal-byte-317310:asia-south2:url-shortener1';
 
-// const proxyConnection = new SocksConnection({
-//   host: process.env.dbhost
-// }, {
-//   user: proxyValues[0],
-//   pass: proxyValues[1],
-//   host: proxyValues[2],
-//   port: proxyValues[3],
-// });
+//   // Establish a connection to the database
+//   return await mysql.createPool({
+//     user: process.env['user'], // e.g. 'my-db-user'
+//     password: process.env['pwd'], // e.g. 'my-db-password'
+//     database: process.env['db'], // e.g. 'my-database'
+//     // If connecting via unix domain socket, specify the path
+//     socketPath: `${dbSocketPath}/${conn_Name}`
+//   });
+// };
 
 // create connection to db...
 const db = mysql.createPool({
@@ -79,7 +80,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 24 * 3,
       expires: 1000 * 60 * 60 * 24 * 3,
     },
-    store: new MySQLStore({ pool: db }),
+    store: new MySQLStore({ pool: db })
   })
 );
 
