@@ -162,7 +162,7 @@ app.delete("/:id", (req, res) => {
 
 app.use((err, req, res, next) => {
   // console.error(err.message);
-  res.status(400).render("index", { err: err.message, urls: req.session.urls });
+  res.status(500).render("index", { err: err.message, urls: req.session.urls });
 });
 
 // Server Init...
