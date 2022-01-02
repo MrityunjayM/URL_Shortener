@@ -1,8 +1,8 @@
 // enviromental variable config...
-// import dotenv from 'dotenv';
-// if (process.env.NODE_ENV !== "production" || true) {
-//   dotenv.config();
-// }
+// import dotenv from "dotenv";
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 // Import Modules...
 import express from "express";
@@ -32,20 +32,27 @@ const db = mysql.createPool({
   database: process.env["db"],
 });
 
+// Rand_ID_Generator...
+const generate_id = () =>
+  Math.random()
+    .toString(36)
+    .replace(/[^a-z0-9]/gi, "")
+    .slice(2, 8);
+
 // query functions....
 const addURL = (id, url, slug) =>
   `INSERT INTO Links (URL, ShortedUrlsID, slug) VALUES ('${url}','${id}', '${slug}');`;
 const findById = (id) =>
   `SELECT * FROM Links WHERE ShortedUrlsID='${id}' LIMIT 1;`;
-const findByUrl = (url) => `SELECT * FROM Links WHERE URL='${url}' LIMIT 1;`;
+// const findByUrl = (url) => `SELECT * FROM Links WHERE URL='${url}' LIMIT 1;`;
 const deleteURL = (id) => `DELETE FROM Links WHERE ShortedUrlsID = '${id}';`;
 
 // view engine set-up...
 app.set("view engine", "pug");
-app.set("views", "./Views");
+app.set("views", "./views");
 
-// Serving static files from --> 'Views'
-app.use(express.static("./Views"));
+// Serving static files from --> 'public'
+app.use(express.static("./public"));
 
 // SEO Middleware...
 app.use(prerender.set("prerenderToken", process.env.PRERENDER_TOCKEN));
@@ -53,10 +60,10 @@ app.use(prerender.set("prerenderToken", process.env.PRERENDER_TOCKEN));
 // set-up middlewares...
 // app.use(helmet()); // Security Middleware
 app.use(compression());
-app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(methodOverride("_method"));
 app.use(
   session({
     secret: process.env.SESS_SECRET,
@@ -72,7 +79,7 @@ app.use(
   })
 );
 
-// Storing Locals variables...
+// Setting Local variable...
 app.use((req, res, next) => {
   res.locals.hostname = req.hostname;
   next();
@@ -99,21 +106,20 @@ app.get("/:id", (req, res) => {
   });
 });
 
+app.post("/api/fetch", (req, res) => {
+  console.log(req.body);
+
+  res.status(201).json(req.body);
+});
+
 // GENERATE Shorten URL and STORE in Database...
 app.post("/", (req, res) => {
   let { url, slug } = req.body;
-  let id = !slug
-    ? Math.random()
-        .toString(36)
-        .replace(/[^a-z0-9]/gi, "")
-        .substr(2, 8)
-    : slug;
-
+  let id = slug || generate_id();
+  console.log(id, url, slug);
+  
   if (!url) {
-    return res.status(301).render("index", {
-      msg: "Please provide a valid URL.",
-      urls: req.session.urls,
-    });
+    throw new Error("URL field is required...");
   }
 
   db.query(addURL(id, url, slug), (err) => {
@@ -124,7 +130,7 @@ app.post("/", (req, res) => {
             urls: req.session.urls,
           })
         : res.status(500).render("index", {
-            msg: "Something went wrong on server, sorry for your inconveinence. Kindly visit later...",
+            msg: "Oops.., Something went wrong on server.",
             urls: req.session.urls,
           });
       return;
@@ -152,6 +158,11 @@ app.delete("/:id", (req, res) => {
     req.session.urls = req.session.urls.filter((x) => x.id != id);
     req.session.save(() => res.redirect("/"));
   });
+});
+
+app.use((err, req, res, next) => {
+  // console.error(err.message);
+  res.status(400).render("index", { err: err.message, urls: req.session.urls });
 });
 
 // Server Init...

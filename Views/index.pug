@@ -1,9 +1,6 @@
 extends layout.pug
 
 block content
-	div.container.brand
-		h1 
-			a(href='/') URL Shortener
 
 	div.container.view
 		div.new-url
@@ -15,6 +12,8 @@ block content
 				
 			if msg
 				p.err-msg #{msg}
+			if err
+				include ./error.pug
 		
 		form(id='form',action='/',method='POST').form-control
 
@@ -27,6 +26,6 @@ block content
 				p.inst-1 URL Should be formated like this 👉 " (https or http)://microsoft.com/ "			
 			
 			button#link-btn.btn(type='submit') Shorten the Link
-
+			
 	if(urls && (urls.length > 0))
 		include ./urlList.pug
