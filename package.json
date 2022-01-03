@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm i -S & node index.js",
-    "local": "node --experimental-modules index.js",
-    "dev": "nodemon index.js"
+    "local": "node -r dotenv/config --experimental-modules index.js",
+    "dev": "nodemon -r dotenv/config index.js"
   },
   "keywords": [],
   "author": "Mrityunjay",

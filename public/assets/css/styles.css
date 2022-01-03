@@ -182,8 +182,8 @@ input#slug:is(:focus, :hover){
 }
 
 .btn-delete{
-	width: 1.6em;
-	height: 1.6em;
+	width: 1em;
+	height: 1em;
 	padding: 2px 3px;
 	margin: auto;
 	border:none;
@@ -254,6 +254,7 @@ tr{
 		width: 100vw;
 	}
 
+	.container .new-url,
 	.container .form-control input,
 	.container .form-control .instruction,
 	.container .form-control .btn

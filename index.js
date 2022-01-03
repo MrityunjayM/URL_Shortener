@@ -1,9 +1,3 @@
-// enviromental variable config...
-// import dotenv from "dotenv";
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config();
-}
-
 // Import Modules...
 import express from "express";
 import cookieParser from "cookie-parser";
@@ -116,8 +110,7 @@ app.post("/api/fetch", (req, res) => {
 app.post("/", (req, res) => {
   let { url, slug } = req.body;
   let id = slug || generate_id();
-  console.log(id, url, slug);
-  
+
   if (!url) {
     throw new Error("URL field is required...");
   }
