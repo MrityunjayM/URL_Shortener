@@ -83,7 +83,7 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   if (req.session.urls) return res.render("index", { urls: req.session.urls });
 
-  return res.render("index");
+  res.render("index");
 });
 
 app.get("/:id", (req, res) => {
@@ -126,7 +126,6 @@ app.post("/", (req, res) => {
             msg: "Oops.., Something went wrong on server.",
             urls: req.session.urls,
           });
-      return;
     }
 
     if (req.session.urls) {
@@ -136,7 +135,7 @@ app.post("/", (req, res) => {
       );
     } else {
       req.session.urls = [{ url, id }];
-      return res.render("index", { url, id, urls: req.session.urls });
+      res.render("index", { url, id, urls: req.session.urls });
     }
   });
 });
