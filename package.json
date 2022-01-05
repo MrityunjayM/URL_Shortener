@@ -5,12 +5,16 @@
   "description": "A service to short url...",
   "main": "index.js",
   "scripts": {
-    "start": "npm i -S & node index.js",
+    "start": "npm install -S & node index.js",
     "local": "node -r dotenv/config --experimental-modules index.js",
     "dev": "nodemon -r dotenv/config index.js"
   },
-  "keywords": [],
-  "author": "Mrityunjay",
+  "keywords": [
+    "url-shortener",
+    "mini-app",
+    "short-link-generator"
+  ],
+  "author": "Mrityunjay Kumar Mishra",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",

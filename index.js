@@ -108,7 +108,7 @@ app.post("/api/fetch", (req, res) => {
 
 // GENERATE Shorten URL and STORE in Database...
 app.post("/", (req, res) => {
-  let { url, slug } = req.body;
+  let { url, slug = generate_id() } = req.body;
   let id = slug || generate_id();
 
   if (!url) {
