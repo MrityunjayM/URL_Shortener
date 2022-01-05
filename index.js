@@ -108,14 +108,14 @@ app.post("/api/fetch", (req, res) => {
 
 // GENERATE Shorten URL and STORE in Database...
 app.post("/", (req, res) => {
-  let { url, slug = generate_id() } = req.body;
+  let { url, slug } = req.body;
   let id = slug || generate_id();
 
   if (!url) {
     throw new Error("URL field is required...");
   }
 
-  db.query(addURL(id, url, slug), (err) => {
+  db.query(addURL(id, url, id), (err) => {
     if (err) {
       err.code == "ER_DUP_ENTRY"
         ? res.status(400).render("index", {
