@@ -229,6 +229,7 @@ td,th{
 td{
 	/* width: .6em !important; */
 	padding: 5px 8px;
+	text-align: center;
 	/* margin: 0 2px; */
 }
 
