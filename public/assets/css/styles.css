@@ -184,24 +184,22 @@ input#slug:is(:focus, :hover){
 .btn-delete{
 	width: 1em;
 	height: 1em;
-	padding: 2px 3px;
 	margin: auto;
 	border:none;
 	display: inline-block;
-	color: black;
-	background: rgb(221, 87, 87);
-	font-weight: 200;
+	color: red;
+	font-weight: 700;
 	font-size:  28px;
 	text-align: center;
-	border-radius: 50%;
-	box-shadow: 
-		1px 1px 1px 1px rgba(123, 121, 128, 0.452),
-		inset -1px -1px -1px -1px rgba(123, 121, 128, 0.455);
 	transition: all 1.2s ease-in-out;
 }
+
 .btn-delete:hover{
 	cursor: pointer;
-	background-color: rgb(214, 34, 34);
+}
+
+.btn-delete:hover > svg {
+	scale: 1.1;
 }
 
 table{
