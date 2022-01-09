@@ -1,3 +1,5 @@
+@import url('table.css');
+
 *{
 	margin: 0;
 	padding: 0;
@@ -181,71 +183,6 @@ input#slug:is(:focus, :hover){
 	transform: scale(1.04);
 }
 
-.btn-delete{
-	width: 1em;
-	height: 1em;
-	margin: auto;
-	border:none;
-	display: inline-block;
-	color: red;
-	font-weight: 700;
-	font-size:  28px;
-	text-align: center;
-	transition: all 1.2s ease-in-out;
-}
-
-.btn-delete:hover{
-	cursor: pointer;
-}
-
-.btn-delete:hover > svg {
-	scale: 1.1;
-}
-
-table{
-	/* border-collapse: collapse;
-	width:50%;*/
-	min-width: 300px;
-	margin: 0 auto;
-	width: 80%;
-}
-
-tbody tr:nth-child(odd){
-	background: #f3f4f1;
-}
-
-tbody tr:nth-child(even){
-	background: #f3eec9e6;
-}
-
-td,th{
-	/* border:1.2px solid #000; */
-	border: none;
-	/* width: 30%; */
-	max-width: 350px;
-	word-wrap: break-word;
-}
-
-td{
-	/* width: .6em !important; */
-	padding: 5px 8px;
-	text-align: center;
-	/* margin: 0 2px; */
-}
-
-td a {
-	width: 90%;
-	margin: 5px auto;
-	color: blue;
-	word-wrap: break-word;
-}
-
-tr{
-	width: 90%;
-	height: 2em !important;
-	max-height: 30px !important;
-}
-
 
 @media (max-width: 576px){
 	.container
@@ -269,12 +206,5 @@ tr{
 	.new-url a
 	{
 		width: 80%;
-	}
-
-	table{width: 98%;}
-
-	td,th
-	{
-		max-width: 135px !important;
 	}
 }
