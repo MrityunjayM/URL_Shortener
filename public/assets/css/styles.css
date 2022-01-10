@@ -7,7 +7,7 @@
 }
 
 body{
-	background: url(https://th.bing.com/th/id/OIP.su2GLsVmD4PQfkEJM8ZoRgHaHa?w=189&h=188&c=7&r=0&o=5&pid=1.7) #bdd8f9;
+	background: url("https://th.bing.com/th/id/OIP.su2GLsVmD4PQfkEJM8ZoRgHaHa?w=189&h=188&c=7&r=0&o=5&pid=1.7") #bdd8f9;
 	font-family: 'Poppins', Segoe UI, 'sans-serif' !Important;
 	font-family:  cursive !Important;
 	min-height: 100vh;
@@ -166,7 +166,7 @@ input#slug:is(:focus, :hover){
 	border-radius: 8px;
 	display: block;
 	color: #222;
-	background: rgba(33, 226, 216, 0.863);
+	background: rgb(243 122 146 / 0.7);
 	font-family: 'Poppins';
 	font-size: 1.1rem;
 	letter-spacing: 1.2px;
@@ -179,7 +179,7 @@ input#slug:is(:focus, :hover){
 
 .btn:hover{
 	cursor: pointer;
-	background-color:rgb(76, 169, 206);
+	background-color:rgb(243 122 146);
 	transform: scale(1.04);
 }
 

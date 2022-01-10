@@ -1,6 +1,6 @@
 // Import Modules...
 import express from "express";
-// import helmet from 'helmet'; // Will be enabled in future...
+import helmet from "helmet";
 import mysql from "mysql";
 import compression from "compression";
 import cookieParser from "cookie-parser";
@@ -39,7 +39,21 @@ app.use(express.static("./public"));
 // SEO Middleware...
 app.use(prerender.set("prerenderToken", process.env.PRERENDER_TOCKEN));
 // set-up middlewares...
-// app.use(helmet()); // Security Middleware
+app.use(helmet()); // Security Middleware
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "default-src": ["'self'"],
+      "style-src": ["'self'", "https://fonts.googleapis.com/css2"],
+      "font-src": [
+        "'self'",
+        "https://fonts.gstatic.com/s/poppins/",
+        "https://fonts.gstatic.com/s/robotomono/",
+      ],
+      "img-src": ["'self'", "https://th.bing.com/"],
+    },
+  })
+);
 app.use(compression());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
