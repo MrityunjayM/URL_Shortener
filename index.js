@@ -61,6 +61,7 @@ app.use(cookieParser());
 app.use(methodOverride("_method"));
 app.use(
   session({
+    name: "dvfh38h",
     secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true,
