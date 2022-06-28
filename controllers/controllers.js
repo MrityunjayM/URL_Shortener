@@ -28,11 +28,10 @@ export const generateShortLink = (req, res) => {
 
     if (req.session.urls) {
       req.session.urls = [...req.session.urls, { url, id }]
-      return req.session.save(() => res.render("index", { url, id }))
     } else {
       req.session.urls = [{ url, id }]
-      return res.render("index", { url, id })
     }
+    return req.session.save(() => res.render("index", { url, id }))
   })
 }
 
