@@ -1,95 +1,99 @@
 .container-table {
-    max-width: 750px;
-    padding: 10px;
-    margin: 15px auto;
-    text-align: center;
+  max-width: 750px;
+  padding: 10px;
+  margin: 15px auto;
+  text-align: center;
 }
 
 .container-table > .table-row {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    column-gap: 8px;
-    align-items: center;
-    justify-content: space-between;
-    margin: 20px auto;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, 'sans-serif';
-    font-weight: 500;
-    background-color: #fff;
-    box-shadow: 2px 1px 10px 1px rgba(0 0 0/.2);
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px auto;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, "sans-serif";
+  font-weight: 500;
+  background-color: #fff;
+  box-shadow: 2px 1px 10px 1px rgba(0 0 0/0.2);
 }
 .container-table > .table-row:hover {
-    box-shadow: 3px 4px 10px 4px rgba(0 0 0/.2);
+  box-shadow: 3px 4px 10px 4px rgba(0 0 0/0.2);
 }
 
-@media (max-width:550px) {
-    .container-table > .table-row {
-        flex-direction: column;
-        row-gap: 10px;
-    }
-    .container-table > .table-row .cell:nth-child(2),
-    .container-table > .table-row .cell:nth-child(3) {
-        flex: auto;
-    }
+.cell > a {
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+@media (max-width: 550px) {
+  .container-table > .table-row {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  .container-table > .table-row .cell:nth-child(2),
+  .container-table > .table-row .cell:nth-child(3) {
+    flex: auto;
+  }
 }
 
 .container-table > .table-row > .count-tip {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: -16px;
-    left: -16px;
-    min-width: 35px;
-    min-height: 35px;
-    color: #fff;
-    text-align: center;
-    border-radius: 50%;
-    background-color: #ef9696;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -16px;
+  left: -16px;
+  min-width: 35px;
+  min-height: 35px;
+  color: #fff;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #ef9696;
 }
 
 .container-table > .table-row .cell {
-    text-align: justify;
-    color: #222;
+  text-align: justify;
+  color: #222;
 }
 .container-table > .table-row .cell:nth-child(2) {
-    margin-left: 8px;
-    flex: 4 2 35%;
+  margin-left: 8px;
+  flex: 4 2 35%;
 }
 .container-table > .table-row .cell:nth-child(3) {
-    flex: 2 2 35%;
+  flex: 2 2 35%;
 }
 .container-table > .table-row .cell:last-child {
-    color: red;
-    transition: font-size 2s linear;
+  color: red;
+  transition: font-size 2s linear;
 }
 
-
-.container-table > .table-row .btn-delete{
-	width: 1em;
-	height: 1em;
-	margin: auto;
-	border:none;
-	display: inline-block;
-	color: red;
-	font-weight: 700;
-	font-size:  28px;
-	text-align: center;
-    background: none !important;
-	transition: all 1.2s ease-in-out;
+.container-table > .table-row .btn-delete {
+  width: 1em;
+  height: 1em;
+  margin: auto;
+  border: none;
+  display: inline-block;
+  color: red;
+  font-weight: 700;
+  font-size: 28px;
+  text-align: center;
+  background: none !important;
+  transition: all 1.2s ease-in-out;
 }
 
 .container-table > .table-row .btn-delete > svg {
-    transition: width .5s ease, height .4s ease-in;
+  transition: width 0.5s ease, height 0.4s ease-in;
 }
 
-.container-table > .table-row .btn-delete:hover{
-	cursor: pointer;
+.container-table > .table-row .btn-delete:hover {
+  cursor: pointer;
 }
 
 .container-table > .table-row .btn-delete:hover > svg {
-	width: 18px;
-    height: 18px;
+  width: 18px;
+  height: 18px;
 }
