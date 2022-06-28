@@ -1,16 +1,16 @@
 // Import Modules...
-import express from "express";
-import helmet from "helmet";
-import mysql from "mysql";
-import compression from "compression";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
-import session from "express-session";
-import connectMysql from "connect-mysql";
-const MySQLStore = connectMysql(session);
+import express from "express"
+import helmet from "helmet"
+import mysql from "mysql"
+import compression from "compression"
+import cookieParser from "cookie-parser"
+import methodOverride from "method-override"
+import session from "express-session"
+import connectMysql from "connect-mysql"
+const MySQLStore = connectMysql(session)
 /* --------------------------------------------------------------------------- */
 // SEO tool ~ prerender.io
-import prerender from "prerender-node";
+import prerender from "prerender-node"
 /* --------------------------------------------------------------------------- */
 
 import {
@@ -18,28 +18,28 @@ import {
   redirectToOriginalUrl,
   renderHomePage,
   _delete,
-} from "./controllers/controllers.js";
+} from "./controllers/controllers.js"
 // PORT
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
 // Expresss app initialization...
-const app = express();
+const app = express()
 // create connection to db...
 export const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.USER,
   password: process.env.KEY,
   database: process.env.DB,
-});
+})
 
 // view engine set-up...
-app.set("view engine", "pug");
-app.set("views", "./views");
+app.set("view engine", "pug")
+app.set("views", "./views")
 // Serving static files from --> 'public'
-app.use(express.static("./public"));
+app.use(express.static("./public"))
 // SEO Middleware...
-app.use(prerender.set("prerenderToken", process.env.PRERENDER_TOCKEN));
+app.use(prerender.set("prerenderToken", process.env.PRERENDER_TOCKEN))
 // set-up middlewares...
-app.use(helmet()); // Security Middleware
+app.use(helmet()) // Security Middleware
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -53,12 +53,12 @@ app.use(
       "img-src": ["'self'", "https://th.bing.com/"],
     },
   })
-);
-app.use(compression());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(cookieParser());
-app.use(methodOverride("_method"));
+)
+app.use(compression())
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(cookieParser())
+app.use(methodOverride("_method"))
 app.use(
   session({
     name: "dvfh38h",
@@ -72,30 +72,32 @@ app.use(
     },
     store: new MySQLStore({ pool: db }),
   })
-);
+)
 // Setting local variable...
 app.use((req, res, next) => {
-  res.locals.hostname = req.hostname;
-  next();
-});
+  res.locals.hostname = req.hostname
+  next()
+})
 // Define ROUTES...
 // @ / GET
-app.get("/", renderHomePage);
+app.get("/", renderHomePage)
 // @ / POST
-app.post("/", generateShortLink);
+app.post("/", generateShortLink)
 // @ /:id POST
-app.get("/:id", redirectToOriginalUrl);
+app.get("/:id", redirectToOriginalUrl)
 // @ /id DELETE
-app.delete("/:id", _delete);
+app.delete("/:id", _delete)
 // ERROR handeler...{to be fixed}
 app.use((err, req, res, next) => {
-  res.status(500).render("index", { err: err.message, urls: req.session.urls });
-});
+  res.status(500).render("index", { err: err.message, urls: req.session.urls })
+})
+
 // Server Init...
-app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`));
+app.listen(PORT, () => console.log(`Server started on PORT: ${PORT}`))
+
 // Error Exceptions...
 process.on("uncaughtException", (err) => {
-  console.error(err.name, "->", err.message);
-  process.exit(0);
-});
+  console.error(err.name, "->", err.message)
+  process.exit(0)
+})
 //  END
