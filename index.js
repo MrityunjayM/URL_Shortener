@@ -76,6 +76,7 @@ app.use(
 // Setting local variable...
 app.use((req, res, next) => {
   res.locals.hostname = req.hostname
+  res.locals.urls = req.session.urls || []
   next()
 })
 // Define ROUTES...

@@ -2,9 +2,9 @@ import { db } from "../index.js"
 import { addURL, findById, deleteURL } from "../helpers.js"
 
 export const renderHomePage = (req, res) => {
-  if (req.session.urls) return res.render("index", { urls: req.session.urls })
+  if (req.session.urls) return res.status(200).render("index")
 
-  return res.render("index")
+  return res.status(200).render("index")
 }
 
 export const generateShortLink = (req, res) => {
@@ -20,22 +20,18 @@ export const generateShortLink = (req, res) => {
       return err.code == "ER_DUP_ENTRY"
         ? res.status(400).render("index", {
             msg: `A link is already generated using this suffix "${slug}", kindly prefer something different.`,
-            urls: req.session.urls,
           })
         : res.status(500).render("index", {
             msg: "Oops.., Something went wrong on server.",
-            urls: req.session.urls,
           })
     }
 
     if (req.session.urls) {
       req.session.urls = [...req.session.urls, { url, id }]
-      req.session.save(() =>
-        res.render("index", { url, id, urls: req.session.urls })
-      )
+      return req.session.save(() => res.render("index", { url, id }))
     } else {
       req.session.urls = [{ url, id }]
-      return res.render("index", { url, id, urls: req.session.urls })
+      return res.render("index", { url, id })
     }
   })
 }
@@ -48,9 +44,7 @@ export const redirectToOriginalUrl = (req, res) => {
 
     return !(link.length <= 0)
       ? res.redirect(link[0].URL)
-      : res
-          .status(301)
-          .render("index", { msg: "Invalid URL!!", urls: req.session.urls })
+      : res.status(301).render("index", { msg: "Invalid URL!!" })
   })
 }
 
