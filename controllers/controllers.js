@@ -1,5 +1,5 @@
 import { db } from "../index.js"
-import { addURL, findById, deleteURL } from "../helpers.js"
+import { addURL, findById, deleteURL, generate_id } from "../helpers.js"
 
 export const renderHomePage = (req, res) => {
   if (req.session.urls) return res.status(200).render("index")
