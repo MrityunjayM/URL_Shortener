@@ -1,2 +1,6 @@
-/node_modules
-/.env
+# ignoring node_modules
+node_modules
+# ignoring Env file
+.env
+# ignoring pdf file
+mlURVbCN6A.pdf
